@@ -1,108 +1,94 @@
-# churn_project
-End-to-end Machine Learning &amp; Deep Learning project for predicting customer churn using Telco dataset.
-# 📊 Customer Churn Prediction — Machine Learning & Deep Learning Project
+ 📊 Customer Churn Prediction — Machine Learning & Deep Learning Project
 
-This project presents a complete **end-to-end churn prediction system** built using both classical Machine Learning models and a Deep Learning (MLP) model. The solution is applied to the Telco Customer Churn dataset and aims to accurately identify customers who are at risk of leaving.
+This project presents a complete end-to-end churn prediction system using both classical Machine Learning models and several Deep Learning architectures. The goal is to identify customers at risk of churn using the Telco Customer Churn dataset.
 
-The project includes data preprocessing, feature engineering, model training, hyperparameter optimization, experiment tracking, and deployment-ready prediction scripts.
+The workflow includes preprocessing, feature engineering, modeling, hyperparameter tuning, and experiment tracking.
 
 ---
 
 ## 🚀 Project Highlights
 
-### ✔️ 1. Complete Preprocessing Pipeline
-A full, production-ready preprocessing workflow including:
+### 1. Full Preprocessing Pipeline
 
-- **Handling Missing Values**
-  - SimpleImputer (mean, median, most_frequent)
-  - Advanced Imputation (KNN Imputer, Iterative Imputer)
-- **Encoding categorical variables**
-- **Scaling with RobustScaler** to handle outliers
-- **Outlier detection and treatment**
-- **Feature Engineering**
+- Handling missing values using:
+  - SimpleImputer
+  - Advanced Imputers (KNN, Iterative)
+- Outlier detection and mitigation
+- Categorical encoding
+- Robust scaling to handle skewed distributions
+- SMOTE for balancing classes
+- Additional feature engineering:
   - `TotalServicesCount`
   - `AutomaticPayment`
   - `IsNewCustomer`
   - `TenureServicesScore`
-  - `InternetType` mapping  
-  - Interaction features between tenure and services
-- Dataset balancing using **SMOTE**
+  - `InternetType`
+  - Service interactions and derived metrics
 
 ---
 
-### ✔️ 2. Machine Learning Models Implemented
+## 🤖 Machine Learning Models
+
+The following classical ML models were implemented and evaluated:
 
 | Model | Description |
 |-------|-------------|
 | Logistic Regression | Baseline linear model |
-| Random Forest | High-performing ensemble method |
-| KNN | Distance-based algorithm |
-| SVM | Non-linear classifier with kernels |
-| Decision Tree | Simple interpretable model |
-| Gradient Boosting | Sequential boosting algorithm |
-| XGBoost | Optimized boosting algorithm |
+| Random Forest | Ensemble model with decision trees |
+| KNN | Distance-based classifier |
+| SVM | Margin-based classifier with kernels |
+| Decision Tree | Simple rule-based classifier |
+| Gradient Boosting | Boosted tree ensemble |
+| XGBoost | High-performance gradient boosting |
 
-All models were evaluated using:
-- **Stratified 5-Fold Cross Validation**
-- **AUC**, **Accuracy**, **Log Loss**, **Confusion Matrix**
+Model performance was evaluated using:
 
----
-
-### ✔️ 3. Deep Learning Model (MLP Neural Network)
-A fully-connected neural network built with TensorFlow/Keras featuring:
-
-- Multiple Dense layers  
-- ReLU activation functions  
-- Dropout layers  
-- Batch Normalization  
-- Adam optimizer  
-- Early stopping  
-
-This model achieved the **highest AUC and accuracy** across all experiments—making it the final selected model.
+- Stratified 5-Fold Cross-Validation  
+- Accuracy  
+- ROC-AUC  
+- Log Loss  
 
 ---
 
-### ✔️ 4. Hyperparameter Tuning with Optuna
+## 🧠 Deep Learning Models
 
-Optuna was used to automatically search for the **optimal hyperparameters** for all ML models:
+The project includes several deep learning architectures built and optimized via Optuna:
 
-- Logistic Regression (C)
-- Random Forest (depth, estimators, min samples)
-- KNN (n_neighbors, weights)
-- SVM (C, gamma)
-- Decision Tree (max_depth, criterion)
-- Gradient Boosting (estimators, learning rate)
-- XGBoost (depth, subsample, colsample_bytree, learning_rate)
+| Model Type | Description |
+|------------|-------------|
+| **MLP (Multi-Layer Perceptron)** | Dense neural network with BatchNorm & Dropout. |
+| **1D CNN** | Captures local patterns in reshaped tabular sequences. |
+| **Simple RNN** | Learns short sequential dependencies. |
+| **LSTM** | Learns long-term dependencies with memory gating. |
+| **Transformer Encoder** | Uses attention to model global context. |
 
-The optimization objective was **maximize Validation AUC**.
+### Deep Learning Hyperparameters Tuned
+
+| Hyperparameter | Range |
+|----------------|--------|
+| Learning Rate | 1e-4 → 5e-3 |
+| L2 Regularization | 1e-6 → 1e-3 |
+| Dropout Rate | 0.0 → 0.4 |
+| Dense Units | 32–256 |
+| CNN Filters | 16–128 |
+| Kernel Sizes | 2–5 |
+| Attention Heads | 2–4 |
+| d_model | 32–96 |
+| FFN Dim | 64–256 |
+
+### 🏆 Best Deep Learning Model
+
+The **MLP Neural Network** achieved the highest overall performance (AUC, accuracy, stability), and was selected as the final deployed model.
 
 ---
 
-### ✔️ 5. Experiment Tracking with MLflow
-MLflow tracked:
+## 📈 Performance Summary
 
-- Model parameters  
-- Training metrics  
-- Cross-validation scores  
-- Loss curves  
-- AUC values  
-- Saved model artifacts  
-
-This allows full reproducibility and experiment comparison.
-
----
-
-### ✔️ 6. Deployment-Ready Prediction Script
-The project includes a ready-to-use script:
-
-`demo_basic.py`
-
-It performs:
-- Loading scaler  
-- Loading feature names  
-- Loading ML or DL final model  
-- Converting input into correct format  
-- Predicting churn probability  
+| Category | Best Model |
+|----------|------------|
+| Best ML Model | XGBoost |
+| Best DL Model | **MLP (Winner)** |
+| Final Output | Churn probability |
 
 ---
 
@@ -112,79 +98,28 @@ churn_project/
 │── README.md
 │── requirements.txt
 │── demo_basic.py
-│── mlflow.db (optional)
 │
 ├── data/
-│ ├── WA_Fn-UseC_-Telco-Customer-Churn.csv
+│ ├── raw_dataset.csv
 │ ├── processed_churn.csv
 │
 ├── models/
 │ ├── final_xgb_pipeline.pkl
-│ ├── feature_names.pkl
-│ ├── scaler.pkl
 │ ├── best_dl_model.keras
+│ ├── scaler.pkl
+│ ├── feature_names.pkl
 │
 ├── notebooks/
 │ ├── preprocess.ipynb
 │ ├── model_ml.ipynb
 │ ├── model_dl.ipynb
-│ ├── best_deep_learning.ipynb
+│ ├── optuna_search.ipynb
 
-yaml
-
-
----
-
-## 📈 Model Performance
-
-| Model | AUC | Accuracy |
-|-------|------|-----------|
-| Logistic Regression | ... | ... |
-| Random Forest | ... | ... |
-| Gradient Boosting | ... | ... |
-| XGBoost | ... | ... |
-| **Deep Learning (MLP)** | **Highest** | **Highest** |
-
-*(Add your final numbers here)*
-
----
-
-## 🧰 Technologies Used
-
-- Python  
-- Pandas  
-- NumPy  
-- Scikit-learn  
-- TensorFlow / Keras  
-- Optuna  
-- MLflow  
-- Imbalanced-Learn (SMOTE)  
-- Matplotlib / Seaborn  
-
----
-
-## ▶️ How to Run
-
-### Install dependencies:
-pip install -r requirements.txt
-
-shell
-
-### Run prediction demo:
-python demo_basic.py
-
-yaml
 
 
 ---
 
 ## 📬 Contact
 
-If you'd like to connect or discuss the project:
-
-- **LinkedIn:** (
-www.linkedin.com/in/samer-zaidan-60bb372b0
-
-)
-
+- LinkedIn: (www.linkedin.com/in/samer-zaidan-60bb372b0)
 ---
